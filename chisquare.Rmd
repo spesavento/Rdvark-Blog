@@ -1,0 +1,71 @@
+---
+title: "chisquare"
+output: html_document
+---
+
+##The Chi-Square Distribution
+
+Recall that the Gamma distribution has several special cases depending on its parameters α and β. Using the dgamma function in R, we can graph a few cases. The dgamma commonly takes in a vector, a rate (alpha) and a shape (Beta).
+
+```{r}
+exp_seq <-seq(0,7,.001)  #sequence from 0 to 5 by .001 
+plot(exp_seq, dgamma(exp_seq,1,1), col="red", main="Gamma Density Distribution", 
+     xlab = "x", ylab="f(x)",cex=0.02)
+lines(exp_seq, dgamma(exp_seq,2,1), col="orange")
+lines(exp_seq, dgamma(exp_seq,3,1), col="yellow")
+lines(exp_seq, dgamma(exp_seq,4,1), col="green")
+lines(exp_seq, dgamma(exp_seq,5,1), col="blue")
+legend(4.5, 1, legend=c("α=1, β=1", "α=2, β=1", "α=3, β=1", "α=4, β=1", "α=5, β=1"),
+       col=c("red", "orange", "yellow", "green", "blue"), lty=1, cex=0.8)
+```
+<p> The Exponential is a special case of the Gamma Distribution with Γ(α=1, β=1/$\lambda$). <p>
+$f(x) = \frac{x^{\alpha-1}e^-\frac{x}{\beta}}{\beta^\alpha \gamma(\alpha)} = \frac{x^{1-1}e^-\frac{x}{1/\lambda}}{(1/\lambda)^1 \gamma(1)} = \lambda e^{-\lambda x}$
+<p>
+The **Chi-square** ($\chi^2$) is also special case of the Gamma distribution, with Γ(α=1/2, β=2). To see this, let Z be a standard normal random variable from ~N(0,1). If you square Z, then $Z^2$ is a chi-square variable with degrees of freedom 1 notated here as $\chi^2_1$. <p>
+Take a look at the transformation of a standard normal graph squared.
+<p>
+```{r warning=FALSE}
+#Z is standard normal N(0,1)
+
+z <- rnorm(n = 10000, mean = 0, sd = 1)
+hist(z)
+
+#Creating a chi-square distribution by squaring the values
+x = z^2
+hist(x, bins=5)
+```
+<p> Notice the shape of the chi-square distribution is similar to a gamma density distribution. This can be proved using the definition above and the Distribution Function Technique. If Z~N(0,1) and X=$Z^2$, then X~$\chi^2_1$. <p>
+P(X ≤ x) = P($Z^2$ ≤ x) = P($-\sqrt(x)$ ≤ Z ≤$\sqrt(x)$) => <p>
+$F_X(x)$ = $F_Z(\sqrt(x))$ - $F_Z(-\sqrt(x))$ <p>
+Take the derivative of the cdf to find the pdf. <p>
+= $\frac{1}{2\sqrt(x)}$f($\sqrt(x)$) + $\frac{1}{2\sqrt(x)}$f($-\sqrt(x)$) <p>
+Since Z follows a standard normal distribution: <p>
+$f_X(x)$ = $\frac{1}{2\sqrt(x)}$$\frac{1}{\sqrt(2\pi)}$e^(-1/2 x) + $\frac{1}{2\sqrt(x)}$$\frac{1}{\sqrt(2\pi)}$e^(-1/2 x) <p>
+This simplifies to: <p>
+$f_X(x)$ = $\frac{x^(-1/2)}{2\sqrt(x)}$
+<p>
+##The t Distribution
+A t distribution is created using the ratio of a standard normal and the square root of a chi-square divided by its degrees of freedom.
+<p>
+Z ~ N(0,1) <p>
+U ~ $\chi^2_{n}$ <p>
+$t_n$~$\frac{Z}{\sqrt{\frac{U}{n}}}$ is a t distribution with n degrees of freedom. <p>
+The following graph shows how several t distributions compare to the standard normal curve. <p>
+```{r}
+curve(dnorm(x), -4.5, 4.5, col = "red", main = "t Distributions and Standard Normal")
+curve(dt(x, df = 1), add = TRUE)
+curve(dt(x, df = 5), add = TRUE)
+curve(dt(x, df = 15), add = TRUE)
+```
+<p> 
+The pdf of the t distribution with n degrees of freedom is quite complicated, but its expected value is 0 and the variance is $\frac{n}{n-2}$. As the degrees of freedom increase, the t distribution tends toward the standard normal (notice the variance approaches 1 as n⇒∞). This can be seen in the graph as well. The tails of the t distribution as higher but they approach N(0,1) as the degrees of freedom increase.
+<p>
+##The F Distribution
+<p>
+Let U ~$\chi^2_n$ and V ~$\chi^2_m$. If U and V are independent then the ratio of
+$\frac{\frac{U}{n}}{\frac{V}{m}}$ is an F distribution notated $Fn,m$.
+```{r}
+f_seq <- seq(0, 7, .001)
+f_dist <- df(f_seq, df1 = 3, df2 = 4)
+plot(f_dist, main = "F-Distribution w/ df1=3 and df2=4")
+```
