@@ -1,4 +1,6 @@
 # Rdvark-Blog
+### https://sarapesavento.wordpress.com
+
 ![alt text](https://github.com/spesavento/Rdvark-Blog/blob/master/rdvark.png)
 
 ### The Rdvark is a blog I created to review statistical concepts and their implementation in R.
