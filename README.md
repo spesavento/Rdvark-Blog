@@ -10,6 +10,5 @@ New posts will include:
 * Dplyr, Stringr and GGPlot2
 * Probability
 * Loops
-* Global vs Local variables
 * Puzzles
-* R Keras
+* R Keras (files in my Keras-Tensorflow folder)
