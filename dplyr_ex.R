@@ -31,4 +31,4 @@ avg_session <- merged %>%
   group_by(userid) %>% 
   summarise(avg_session = sum(count)/n())
 
-avg_session
+avg_session 
