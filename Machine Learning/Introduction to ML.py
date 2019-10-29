@@ -119,4 +119,4 @@ print("Model predicts that 100 degrees Celsius is: {} degrees Fahrenheit".format
 print("These are the l0 variables: {}".format(l0.get_weights()))
 print("These are the l1 variables: {}".format(l1.get_weights()))
 print("These are the l2 variables: {}".format(l2.get_weights()))
-
+ 
