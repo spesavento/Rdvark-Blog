@@ -38,3 +38,19 @@ SELECT a.Company_name, b.first_name, b.last_name FROM(
   HAVING COUNT(*) < 5) AS a 
   JOIN (SELECT * FROM Caller) AS b 
   ON (a.Contact_id = b.Caller_id);
+  
+  -- 9. Caller 'Harry' claims that the operator who took his most recent call was abusive and insulting. Find out who took the call (full name) and when.
+SELECT Staff.first_name, Staff.last_name, Issue.Call_date FROM Caller JOIN Issue ON(Caller.Caller_id = Issue.Caller_id) JOIN Staff ON(Staff.Staff_code = Issue.Taken_by)
+WHERE Caller.first_name = 'Harry'
+ORDER BY Call_date DESC
+LIMIT 1;
+
+-- challenge: find the most recent 2 callers for each operator 
+SELECT * FROM (SELECT Caller.first_name as fname, Caller.last_name as lname, Issue.Call_date, Staff.first_name, Staff.last_name, ROW_NUMBER() OVER(PARTITION BY Caller.first_name, Caller.last_name 
+                                 ORDER BY Issue.Call_date DESC) AS rk
+FROM Caller JOIN Issue ON(Caller.Caller_id = Issue.Caller_id) JOIN Staff ON(Staff.Staff_code = Issue.Taken_by)
+GROUP BY Caller.first_name, Caller.last_name, Issue.Call_date, Staff.first_name, Staff.last_name) as a
+WHERE rk <= 2 and fname = 'Alexis'
+ORDER BY fname, lname, rk;
+
+
